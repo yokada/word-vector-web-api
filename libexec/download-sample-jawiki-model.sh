@@ -48,9 +48,18 @@ if [ "$(uname)" == 'Darwin' ] || [ "$(expr substr $(uname -s) 1 5)" == 'Linux' ]
     GOPATH=${BASEDIR}/../tmp/go go get -v github.com/prasmussen/gdrive/cli
     echo "${SCRIPT_NAME} go get github.com/voxelbrain/goptions"
     GOPATH=${BASEDIR}/../tmp/go go get -v github.com/voxelbrain/goptions
-    echo "${SCRIPT_NAME} go get code.google.com/p/goauth2/oauth"
-    GOPATH=${BASEDIR}/../tmp/go go get -v code.google.com/p/goauth2/oauth
+    echo "${SCRIPT_NAME} go get golang.org/x/oauth2"
+    GOPATH=${BASEDIR}/../tmp/go go get -v golang.org/x/oauth2
     echo "${SCRIPT_NAME} git clone https://github.com/prasmussen/gdrive.git"
+
+    echo "${SCRIPT_NAME} go get github.com/sabhiram/go-git-ignore"
+    GOPATH=${BASEDIR}/../tmp/go go get -v github.com/sabhiram/go-git-ignore
+    echo "${SCRIPT_NAME} go get github.com/soniakeys/graph"
+    GOPATH=${BASEDIR}/../tmp/go go get -v github.com/soniakeys/graph
+    echo "${SCRIPT_NAME} go get google.golang.org/api/drive/v3"
+    GOPATH=${BASEDIR}/../tmp/go go get -v google.golang.org/api/drive/v3
+    echo "${SCRIPT_NAME} go get google.golang.org/api/googleapi"
+    GOPATH=${BASEDIR}/../tmp/go go get -v google.golang.org/api/googleapi
 
     if [ ! -d ${BASEDIR}/../tmp ]; then
         echo "${SCRIPT_NAME} mkdir ${BASEDIR}/../tmp"
@@ -66,8 +75,8 @@ if [ "$(uname)" == 'Darwin' ] || [ "$(expr substr $(uname -s) 1 5)" == 'Linux' ]
     cd ${BASEDIR}/../tmp/gdrive
     git pull
 
-    echo "${SCRIPT_NAME} Compile drive.go to create Google Drive CLI application"
-    GOPATH=${BASEDIR}/../tmp/go go build -v ./drive.go
+    echo "${SCRIPT_NAME} Compile gdrive.go to create Google Drive CLI application"
+    GOPATH=${BASEDIR}/../tmp/go go build -v gdrive.go util.go handlers_drive.go handlers_meta.go compare.go
 
     if [ ! -d ${BASEDIR}/../model ]; then
         echo "${SCRIPT_NAME} mkdir ${BASEDIR}/../model"
@@ -77,7 +86,7 @@ if [ "$(uname)" == 'Darwin' ] || [ "$(expr substr $(uname -s) 1 5)" == 'Linux' ]
     echo "${SCRIPT_NAME} cd ${BASEDIR}/../model/"
     cd ${BASEDIR}/../model/
     echo "${SCRIPT_NAME} Download sample model data file from Google Drive using drive command"
-    ${BASEDIR}/../tmp/gdrive/drive download --id 0B5QYYyltotqfM2lRQ3l4Mkc5Mk0
+    ${BASEDIR}/../tmp/gdrive/gdrive download 0B5QYYyltotqfM2lRQ3l4Mkc5Mk0
 
     if [ -e ${BASEDIR}/../model/jawiki.20150602.neologd.bin ]; then
         echo "${SCRIPT_NAME} Delete old sample model file"
